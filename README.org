@@ -1,0 +1,4 @@
+
+* Markit
+  markit is a GNU/Emacs minor mode which provides some Vim facilities
+  to Emacs such as vi( va"
