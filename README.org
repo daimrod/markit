@@ -2,3 +2,11 @@
 * Markit
   markit is a GNU/Emacs minor mode which provides some Vim facilities
   to Emacs such as vi( va"
+
+* Installation and configuration
+  : (load "path-to-markit.el")
+  : (require 'markit)
+
+  The following bindings are used:
+  - C-c v i to mark the region, including the delimiters
+  - C-v v e to mark the region, excluding the delimiters
