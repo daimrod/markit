@@ -23,7 +23,8 @@
     (?\" . ?\")
     (?< . ?>)
     (?' . ?')
-    (?\[ . ?\]))
+    (?\[ . ?\])
+    (?{ . ?}))
   "Table used to find the equivalent characters.")
 
 (defvar markit-mode-map (make-sparse-keymap)
