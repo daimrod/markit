@@ -1,4 +1,4 @@
-;; markit.el
+;;; markit.el --- Provide some Vim facilities
 ;; Copyright (C) 2011 Grégoire Jadi
 
 ;; Author: Grégoire Jadi <gregoire.jadi@gmail.com>
@@ -15,6 +15,19 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; Markit provides some Vim facilities to Emacs such as vi( and va".
+;;
+;; The following bindings are used:
+;;  - C-c v i to mark the region, including the delimiters
+;;  - C-v v e to mark the region, excluding the delimiters
+;;
+;; If you wish to have something like ci", enable
+;; `delete-selection-mode'.
+
+;;; Code:
 
 (eval-when-compile (require 'cl))
 
@@ -171,3 +184,5 @@ in `markit-translation-table'."
     ret))
 
 (provide 'markit)
+
+;;; markit.el ends here
