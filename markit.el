@@ -47,14 +47,14 @@
 (define-key markit-mode-map (kbd "C-c v e") 'markit-mark-region-exclude)
 
 (define-minor-mode markit-mode
-    "Add Vim-like vi( functionality to Emacs.
+  "Add Vim-like vi( functionality to Emacs.
 
 Markit mode is a buffer-local minor mode."
   :lighter " Markit"
   :keymap markit-mode-map)
 
 (define-globalized-minor-mode global-markit-mode
-    markit-mode markit-mode-on)
+  markit-mode markit-mode-on)
 
 (defun markit-mode-on ()
   (markit-mode t))
@@ -88,7 +88,7 @@ in `markit-translation-table'."
     (setq ret
           (if ret
               ret
-              (rassoc char markit-translation-table)))
+            (rassoc char markit-translation-table)))
     (list (car ret) (cdr ret))))
 
 (defun markit-mark-region (whole-buffer? include? char)
@@ -99,22 +99,22 @@ in `markit-translation-table'."
         (markit-get-pairs char)
       ;; search backward the « opening » character and push the correct position
       (save-excursion
-       (setq no-error? (markit-search whole-buffer? char- char+ 'backward)
-             pos-tmp (point)))
+        (setq no-error? (markit-search whole-buffer? char- char+ 'backward)
+              pos-tmp (point)))
       (when no-error?
         (push-mark (if include?
                        pos-tmp
-                       (+ pos-tmp 1))
+                     (+ pos-tmp 1))
                    nil t)
         ;; search forward the « closing » character and go at the correct position
         (save-excursion
-         (setq no-error? (markit-search whole-buffer? char+ char- 'forward)
-               pos-tmp (point)))
+          (setq no-error? (markit-search whole-buffer? char+ char- 'forward)
+                pos-tmp (point)))
         (if no-error?
             (goto-char (if include?
                            (+ pos-tmp 1)
-                           pos-tmp))
-            (pop-mark)))
+                         pos-tmp))
+          (pop-mark)))
       (unless no-error?
         (goto-char pos-origin)
         (message "[No Match]")))))
@@ -124,8 +124,8 @@ in `markit-translation-table'."
     (if whole-buffer?
         (setq min (point-min)
               max (point-max))
-        (setq min (window-start)
-              max (window-end)))
+      (setq min (window-start)
+            max (window-end)))
     ;; initialize the context depending on the direction
     (cond ((eq direction 'backward)
            (setq fn-move #'backward-char
@@ -150,31 +150,31 @@ in `markit-translation-table'."
     (while continue?
       (setq prev-pos (point))
       (cond
-        ((not (char-after))
-         (setq continue? nil
-               ret nil))
-        ;; stop when the correct character is found and the stack
-        ;; is empty
-        ((and
-          (= acc 0)
-          (char-equal char-to-match (char-after)))
-         (setq continue? nil
-               ret (point)))
-        ;; pop an element from the stack if it's not empty
-        ;; and the correct character is found
-        ((and
-          (> acc 0)
-          (char-equal char-to-match (char-after)))
-         (decf acc)
-         (funcall fn-move))
-        ;; push an element onto the stack if the complementary
-        ;; character is found
-        ((char-equal char-comp (char-after))
-         (incf acc)
-         (funcall fn-move))
-        ;; otherwise continue the search
-        (t
-         (funcall fn-move)))
+       ((not (char-after))
+        (setq continue? nil
+              ret nil))
+       ;; stop when the correct character is found and the stack
+       ;; is empty
+       ((and
+         (= acc 0)
+         (char-equal char-to-match (char-after)))
+        (setq continue? nil
+              ret (point)))
+       ;; pop an element from the stack if it's not empty
+       ;; and the correct character is found
+       ((and
+         (> acc 0)
+         (char-equal char-to-match (char-after)))
+        (decf acc)
+        (funcall fn-move))
+       ;; push an element onto the stack if the complementary
+       ;; character is found
+       ((char-equal char-comp (char-after))
+        (incf acc)
+        (funcall fn-move))
+       ;; otherwise continue the search
+       (t
+        (funcall fn-move)))
       (when continue?
         (if (or
              (= (- prev-pos (point)) 0)
