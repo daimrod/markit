@@ -22,7 +22,7 @@
 ;;
 ;; The following bindings are used:
 ;;  - C-c v i to mark the region, including the delimiters
-;;  - C-v v e to mark the region, excluding the delimiters
+;;  - C-c v e to mark the region, excluding the delimiters
 ;;
 ;; If you wish to have something like ci", enable
 ;; `delete-selection-mode'.
