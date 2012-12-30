@@ -68,7 +68,9 @@ do so.
 The two characters are obtained with `markit-get-pairs' using the
 `markit-translation-table'."
   (interactive "P\ncMark region: ")
-  (markit-mark-region whole-buffer? nil char))
+  (multiple-value-call
+   #'markit-mark-region
+   (markit-find-region whole-buffer? nil char)))
 
 (defun markit-mark-region-include (whole-buffer? char)
   "Mark a region between two equivalent characters.
@@ -79,7 +81,9 @@ don't want them.
 The two characters are obtained with `markit-get-pairs' using the
 `markit-translation-table'."
   (interactive "P\ncMark region: ")
-  (markit-mark-region whole-buffer? t char))
+  (multiple-value-call
+   #'markit-mark-region
+   (markit-find-region whole-buffer? t char)))
 
 (defun markit-get-pairs (char)
   "Returns a list of two characters according to the values found
@@ -96,10 +100,16 @@ in `markit-translation-table'."
         (signal 'scan-error ret)
       (list (car ret) (cdr ret)))))
 
-(defun markit-mark-region (whole-buffer? include? char)
+(defun markit-mark-region (beginning end)
+  (push-mark beginning nil t)
+  (goto-char end))
+
+(defun markit-find-region (whole-buffer? include? char)
   (let ((pos-origin (point))
         pos-tmp
-        no-error?)
+        no-error?
+        beginning
+        end)
     (multiple-value-bind (char- char+)
         (markit-get-pairs char)
       ;; search backward the « opening » character and push the correct position
@@ -107,22 +117,20 @@ in `markit-translation-table'."
         (setq no-error? (markit-search whole-buffer? char- char+ 'backward)
               pos-tmp (point)))
       (when no-error?
-        (push-mark (if include?
-                       pos-tmp
-                     (+ pos-tmp 1))
-                   nil t)
+        (setf beginning (if include?
+                            pos-tmp
+                          (+ pos-tmp 1)))
         ;; search forward the « closing » character and go at the correct position
         (save-excursion
           (setq no-error? (markit-search whole-buffer? char+ char- 'forward)
                 pos-tmp (point)))
         (if no-error?
-            (goto-char (if include?
-                           (+ pos-tmp 1)
-                         pos-tmp))
-          (pop-mark)))
-      (unless no-error?
-        (goto-char pos-origin)
-        (message "[No Match]")))))
+            (setf end (if include?
+                          (+ pos-tmp 1)
+                        pos-tmp))))
+      (if no-error?
+          (values beginning end)
+        (signal 'search-failed char)))))
 
 (defun markit-search (whole-buffer? char-to-match char-comp direction)
   (let (min max tmp fn-move fn-out? fn-char)
