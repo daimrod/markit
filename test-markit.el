@@ -35,6 +35,36 @@
   (should-error (markit-get-pairs ?a)
                 :type 'scan-error))
 
+(ert-deftest test-markit-mark-region ()
+  (with-buffer-content
+   "(this is a test)"
+
+   (save-excursion
+     (should
+      (multiple-value-bind (beginning end)
+          (markit-find-region t t ?\))
+        (equal (list beginning end)
+               (list 1 (1+ (length content)))))))
+
+   (save-excursion
+     (should-error
+      (progn (goto-char (point-max))
+             (markit-find-region t t ?\)))
+      :type 'scan-error))
+
+   (save-excursion
+     (should-error
+      (progn (goto-char (point-max))
+             (markit-find-region t t ?\<))
+      :type 'scan-error))))
+
+(defmacro with-buffer-content (content &rest body)
+  `(let ((content ,content))            ; makes CONTENT accessible
+     (with-temp-buffer
+       (insert content)
+       (goto-char (point-min))
+       ,@body)))
+
 (provide 'test-markit)
 
 ;;; test-markit.el ends here
