@@ -101,6 +101,7 @@ in `markit-translation-table'."
       (list (car ret) (cdr ret)))))
 
 (defun markit-mark-region (beginning end)
+  "Makes the region between BEGINNING and END active."
   (push-mark beginning nil t)
   (goto-char end))
 
