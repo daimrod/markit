@@ -84,12 +84,17 @@ The two characters are obtained with `markit-get-pairs' using the
 (defun markit-get-pairs (char)
   "Returns a list of two characters according to the values found
 in `markit-translation-table'."
+  (check-type char character)
   (let ((ret (assoc char markit-translation-table)))
     (setq ret
           (if ret
               ret
             (rassoc char markit-translation-table)))
-    (list (car ret) (cdr ret))))
+    (if (or (null ret)
+            (null (car ret))
+            (null (cdr ret)))
+        (signal 'scan-error ret)
+      (list (car ret) (cdr ret)))))
 
 (defun markit-mark-region (whole-buffer? include? char)
   (let ((pos-origin (point))
