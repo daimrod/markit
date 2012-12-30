@@ -111,7 +111,7 @@ in `markit-translation-table'."
         no-error?
         beginning
         end)
-    (multiple-value-bind (char- char+)
+    (destructuring-bind (char- char+)
         (markit-get-pairs char)
       ;; search backward the « opening » character and push the correct position
       (save-excursion
