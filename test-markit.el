@@ -47,15 +47,15 @@
                (list 1 (1+ (length content)))))))
 
    (save-excursion
+     (goto-char (point-max))
      (should-error
-      (progn (goto-char (point-max))
-             (markit-find-region t t ?\)))
+      (markit-find-region t t ?\))
       :type 'search-failed))
 
    (save-excursion
+     (goto-char (point-max))
      (should-error
-      (progn (goto-char (point-max))
-             (markit-find-region t t ?\<))
+      (markit-find-region t t ?\<)
       :type 'search-failed))))
 
 (defmacro with-buffer-content (content &rest body)
