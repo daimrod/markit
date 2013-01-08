@@ -24,6 +24,13 @@
 (require 'ert)
 (require 'markit)
 
+(defmacro with-buffer-content (content &rest body)
+  `(let ((content ,content))            ; makes CONTENT accessible
+     (with-temp-buffer
+       (insert content)
+       (goto-char (point-min))
+       ,@body)))
+
 (ert-deftest test-markit-get-pairs ()
   (should (equal (markit-get-pairs ?\)) '(?\( ?\))))
   (should (equal (markit-get-pairs ?{) '(?{ ?})))
@@ -57,13 +64,6 @@
      (should-error
       (markit-find-region t t ?\<)
       :type 'search-failed))))
-
-(defmacro with-buffer-content (content &rest body)
-  `(let ((content ,content))            ; makes CONTENT accessible
-     (with-temp-buffer
-       (insert content)
-       (goto-char (point-min))
-       ,@body)))
 
 (provide 'test-markit)
 
