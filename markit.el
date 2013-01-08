@@ -31,14 +31,21 @@
 
 (eval-when-compile (require 'cl))
 
-(defvar markit-translation-table
+(defgroup markit nil
+  "Mark text"
+  :group 'text)
+
+(defcustom markit-translation-table
   '((?\( . ?\))
     (?\" . ?\")
     (?< . ?>)
     (?' . ?')
     (?\[ . ?\])
     (?{ . ?}))
-  "Table used to find the equivalent characters.")
+  "Table used to find the equivalent characters."
+  :group 'markit
+  :type '(repeat
+          (cons character character)))
 
 (defvar markit-mode-map (make-sparse-keymap)
   "Keymap for the Markit minor mode.")
