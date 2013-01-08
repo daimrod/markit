@@ -50,13 +50,13 @@
      (should-error
       (progn (goto-char (point-max))
              (markit-find-region t t ?\)))
-      :type 'scan-error))
+      :type 'search-failed))
 
    (save-excursion
      (should-error
       (progn (goto-char (point-max))
              (markit-find-region t t ?\<))
-      :type 'scan-error))))
+      :type 'search-failed))))
 
 (defmacro with-buffer-content (content &rest body)
   `(let ((content ,content))            ; makes CONTENT accessible
