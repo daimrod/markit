@@ -1,4 +1,3 @@
-
 Markit
 ======
 
@@ -15,6 +14,4 @@ The following bindings are used:
 - C-c v i to mark the region, including the delimiters
 - C-c v e to mark the region, excluding the delimiters
 
-If you wish to have something like ci", enable `delete-selection-mode`
-
-    (delete-selection-mode)
+If you wish to have something like ci", enable `delete-selection-mode` by putting `(delete-selection-mode t)` in your `.emacs`.
