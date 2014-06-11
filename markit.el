@@ -2,6 +2,9 @@
 ;; Copyright (C) 2011-2014 Grégoire Jadi
 
 ;; Author: Grégoire Jadi <gregoire.jadi@gmail.com>
+;; Version: 0.1
+;; Keywords: vim, region, expansion
+;; URL: https://github.com/daimrod/markit
 
 ;; This program is free software: you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -53,6 +56,7 @@
 (define-key markit-mode-map (kbd "C-c v i") 'markit-mark-region-include)
 (define-key markit-mode-map (kbd "C-c v e") 'markit-mark-region-exclude)
 
+;;;###autload
 (define-minor-mode markit-mode
   "Add Vim-like vi( functionality to Emacs.
 
@@ -60,6 +64,7 @@ Markit mode is a buffer-local minor mode."
   :lighter " Markit"
   :keymap markit-mode-map)
 
+;;;###autoload
 (define-globalized-minor-mode global-markit-mode
   markit-mode markit-mode-on)
 
